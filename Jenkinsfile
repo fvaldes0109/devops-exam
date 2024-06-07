@@ -32,20 +32,25 @@ pipeline {
         stage('Deploy to Staging (Target)') {
             steps {
                 echo 'Deploying to Target'
-                script {
-                    // Check if there are any running containers
-                    def runningContainers = sh(script: "ssh vagrant@192.168.105.3 -i /home/vagrant/keys/mykey \"docker ps -aq\"", returnStdout: true).trim()
+                withCredentials([sshUserPrivateKey(credentialsId: 'mykey',
+                                                    keyFileVariable: 'mykey',
+                                                    usernameVariable: 'myuser')]) {
                     
-                    if (runningContainers) {
-                        // Stop and remove all containers if there are any running
-                        sh "ssh vagrant@192.168.105.3 -i /home/vagrant/keys/mykey \"docker ps -aq | xargs docker stop | xargs docker rm\""
-                        echo "Stopped and removed all running containers."
-                    } else {
-                        echo "No running containers to stop and remove."
+                    script {
+                        // Check if there are any running containers
+                        def runningContainers = sh(script: "ssh ${myuser}@192.168.105.3 -i ${mykey} \"docker ps -aq\"", returnStdout: true).trim()
+                        
+                        if (runningContainers) {
+                            // Stop and remove all containers if there are any running
+                            sh "ssh ${myuser}@192.168.105.3 -i ${mykey} \"docker ps -aq | xargs docker stop | xargs docker rm\""
+                            echo "Stopped and removed all running containers."
+                        } else {
+                            echo "No running containers to stop and remove."
+                        }
                     }
+                    
+                    sh "ssh ${myuser}@192.168.105.3 -i ${mykey} \"docker run -d -p 4444:4444 ttl.sh/fvaldes-devops-exam\""
                 }
-                
-                sh "ssh vagrant@192.168.105.3 -i /home/vagrant/keys/mykey \"docker run -d -p 4444:4444 ttl.sh/fvaldes-devops-exam\""
             }
         }
     }
