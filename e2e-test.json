@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "918749ca-2563-492b-a036-17bfe3d59225",
+		"name": "DevOps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16824302"
+	},
+	"item": [
+		{
+			"name": "E2ETest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"E2E API call Test\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"Hello\");",
+							"    pm.expect(jsonData.Description).to.eql(\"World\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:4444/api",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "4444",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
