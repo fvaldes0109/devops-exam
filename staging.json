@@ -1,10 +1,10 @@
 {
 	"id": "f738d100-4fa8-48b0-8d39-9ba189c7895c",
-	"name": "production",
+	"name": "staging",
 	"values": [
 		{
 			"key": "host",
-			"value": "192.168.105.4",
+			"value": "192.168.105.3",
 			"type": "default",
 			"enabled": true
 		}

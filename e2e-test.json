@@ -15,8 +15,8 @@
 						"exec": [
 							"pm.test(\"E2E API call Test\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.Name).to.eql(\"Hello\");",
-							"    pm.expect(jsonData.Description).to.eql(\"World\");",
+							"    pm.expect(jsonData.name).to.eql(\"Hello\");",
+							"    pm.expect(jsonData.description).to.eql(\"World\");",
 							"});"
 						],
 						"type": "text/javascript",
