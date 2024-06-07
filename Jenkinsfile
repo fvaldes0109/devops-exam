@@ -62,6 +62,9 @@ pipeline {
         }
 
         stage('Deploy to Production (K8S)') {
+            when {
+                branch 'main'
+            }
             steps {
                 echo 'Deploying to K8S'
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey',
@@ -87,6 +90,9 @@ pipeline {
         }
 
         stage('Health Check (Production)') {
+            when {
+                branch 'main'
+            }
             steps {
                 echo 'Health Check on Production'
                 sh 'newman run e2e-test.json --environment production.json'
